@@ -3,11 +3,9 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ActorBar } from "@/components/ActorBar";
-import { JudgeCheatSheet } from "@/components/JudgeCheatSheet";
 import { JudgeStampPanel } from "@/components/JudgeStampPanel";
 import { LiveClubPanel } from "@/components/LiveClubPanel";
 import { ModeToggle } from "@/components/ModeToggle";
-import { NinetySecondPath } from "@/components/NinetySecondPath";
 import { OrganizerPath } from "@/components/OrganizerPath";
 import { TestnetPanel } from "@/components/TestnetPanel";
 import { TicketRoll3D } from "@/components/TicketRoll3D";
@@ -97,11 +95,9 @@ export default function ConsolePage() {
 
       {productMode === "preview" && (
         <>
-          <JudgeCheatSheet />
-          <NinetySecondPath />
           <JudgeStampPanel />
           <div className="panel" style={{ marginBottom: "1.5rem" }}>
-            <h3>Judge path · manual (Preview)</h3>
+            <h3>Preview path</h3>
             <p className="meta" style={{ marginBottom: "0.85rem" }}>
               Preview path: seed leaves a seat FREE with a pending cut. List then buy in Preview.
             </p>

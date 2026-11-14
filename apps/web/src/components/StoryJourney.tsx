@@ -11,10 +11,7 @@ import {
 } from "lucide-react";
 import { GeoNetwork } from "@/components/GeoNetwork";
 import { HomeActions } from "@/components/HomeActions";
-import { JudgeCheatSheet } from "@/components/JudgeCheatSheet";
-import { NinetySecondPath } from "@/components/NinetySecondPath";
 import { OrbitalCTA } from "@/components/OrbitalCTA";
-import { ScopeHonesty } from "@/components/ScopeHonesty";
 import { StoryHorizScroll } from "@/components/StoryHorizScroll";
 import { TestnetPanel } from "@/components/TestnetPanel";
 import { TicketRoll3D } from "@/components/TicketRoll3D";
@@ -100,8 +97,8 @@ const BEATS = [
   {
     id: "prove",
     kicker: "05 · Prove it",
-    title: "Every refuse has a receipt — filmed or Preview-reproducible.",
-    body: "Transfer Lab arms seller-recall, listed drain, held-sig, stale nonce, and wash-gated buy. Filmed rows link Nearblocks; Preview rows re-run without a wallet.",
+    title: "Every refuse has a receipt.",
+    body: "Transfer Lab arms seller-recall, listed drain, held-sig, stale nonce, and wash-gated buy. Explorer links for the ones we filmed.",
     href: "/verify",
     cta: "Open proof matrix",
     asset: <FailSlipCard title="EXPECTED FAIL" reason="not current owner · live RPC" />,
@@ -137,12 +134,6 @@ export function StoryJourney() {
 
       <section className="live-strip" aria-label="Live testnet">
         <TestnetPanel compact />
-        <ScopeHonesty compact />
-      </section>
-
-      <section className="judge-rail dense" aria-label="Judge path">
-        <NinetySecondPath />
-        <JudgeCheatSheet />
       </section>
 
       <section className="seat-class-section dense" aria-label="Seat mint roll">
@@ -200,7 +191,6 @@ export function StoryJourney() {
       <section className="finale dense">
         <Reveal>
           <h2>Prove it on testnet.</h2>
-          <ScopeHonesty />
           <div className="cta-row">
             <Link className="btn" href="/lab">
               Transfer Lab
