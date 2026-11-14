@@ -1,15 +1,15 @@
-# `@quitclaim/sdk`
+# `@cleandeed/sdk`
 
-QuitClaim client + domain engine for mid-payout seat NFTs on NEAR.
+CleanDeed client + domain engine for mid-payout seat NFTs on NEAR.
 
 Point at your contract, create your venue, sell tickets at your price, list/buy seats with diligence.
 
 ## Install
 
 ```bash
-pnpm add @quitclaim/sdk
+pnpm add @cleandeed/sdk
 # workspace:
-pnpm --filter @quitclaim/sdk test
+pnpm --filter @cleandeed/sdk test
 ```
 
 Web sync: `pnpm sync:sdk` copies sources into `apps/web/src/sdk`.
@@ -17,9 +17,9 @@ Web sync: `pnpm sync:sdk` copies sources into `apps/web/src/sdk`.
 ## Live client
 
 ```ts
-import { QuitClaimClient } from "@quitclaim/sdk";
+import { CleanDeedClient } from "@cleandeed/sdk";
 
-const qc = new QuitClaimClient({
+const qc = new CleanDeedClient({
   contractId: "your-quitclaim.testnet",
   network: "testnet",
   clubId: "dayfest",
@@ -50,14 +50,14 @@ const buyTicket = await qc.encodeBuyTicket();
 From env:
 
 ```ts
-import { clientFromEnv } from "@quitclaim/sdk";
+import { clientFromEnv } from "@cleandeed/sdk";
 const qc = clientFromEnv(); // QUITCLAIM_CONTRACT_ID or NEXT_PUBLIC_CONTRACT_ID
 ```
 
 ## Local engine
 
 ```ts
-import { createWorld, createVenue, listSeat, buySeat, runDiligence } from "@quitclaim/sdk";
+import { createWorld, createVenue, listSeat, buySeat, runDiligence } from "@cleandeed/sdk";
 
 const world = createWorld(["you.near", "buyer.near"]);
 createVenue(world, {

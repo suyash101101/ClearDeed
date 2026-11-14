@@ -30,8 +30,8 @@ const claims = [
   "lease_blocks_list_until_settle",
 ];
 
-console.log("QuitClaim evidence — SDK tests…\n");
-const r = spawnSync("pnpm", ["--filter", "@quitclaim/sdk", "test"], {
+console.log("CleanDeed evidence — SDK tests…\n");
+const r = spawnSync("pnpm", ["--filter", "@cleandeed/sdk", "test"], {
   cwd: root,
   stdio: "inherit",
   env: process.env,

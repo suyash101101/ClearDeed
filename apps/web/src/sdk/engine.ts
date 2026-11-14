@@ -104,7 +104,7 @@ export function createWorld(
 
 /**
  * Create a venue + mint founding seats in one call (local engine).
- * Use QuitClaimClient.encodeCreateVenue + encodeMintSeats for on-chain.
+ * Use CleanDeedClient.encodeCreateVenue + encodeMintSeats for on-chain.
  */
 export function createVenue(
   world: WorldState,
@@ -652,6 +652,79 @@ export function labWashPath(world: WorldState, tokenId: string): LabResult {
     reason: d.verdict === "FIX BEFORE BUY" ? "wash flagged · diligence FIX" : "wash not reflected",
     explorerHint: `lab://wash/${tokenId}`,
   };
+}
+
+/** Buy with wrong listing nonce — expected refuse (Preview / unit). */
+export function labStaleNonceBuy(
+  world: WorldState,
+  buyer: string,
+  tokenId: string,
+): LabResult {
+  const seat = world.seats[tokenId];
+  if (!seat) {
+    return {
+      attack: "stale_nonce_buy",
+      success: false,
+      reason: "seat missing",
+      explorerHint: "lab://stale-nonce",
+    };
+  }
+  if (seat.encumbrance !== "LISTED") {
+    listSeat(world, seat.owner, tokenId, 100);
+  }
+  const ask = world.seats[tokenId]!.listingAsk ?? 100;
+  try {
+    buySeat(world, buyer, tokenId, ask, 999_999);
+    return {
+      attack: "stale_nonce_buy",
+      success: false,
+      reason: "UNEXPECTED: stale nonce buy succeeded",
+      explorerHint: "lab://unexpected-success",
+    };
+  } catch (e) {
+    return {
+      attack: "stale_nonce_buy",
+      success: false,
+      reason: e instanceof Error ? e.message : String(e),
+      explorerHint: `lab://stale-nonce/${tokenId}`,
+    };
+  }
+}
+
+/** Wash-flagged seat buy — expected refuse (Preview / unit). */
+export function labWashBuy(world: WorldState, buyer: string, tokenId: string): LabResult {
+  flagWash(world, tokenId);
+  const seat = world.seats[tokenId];
+  if (!seat) {
+    return {
+      attack: "wash_gated_buy",
+      success: false,
+      reason: "seat missing",
+      explorerHint: "lab://wash-buy",
+    };
+  }
+  if (seat.encumbrance !== "LISTED") {
+    listSeat(world, seat.owner, tokenId, 100);
+  }
+  const live = world.seats[tokenId]!;
+  const ask = live.listingAsk ?? 100;
+  const nonce = live.listingNonce;
+  try {
+    buySeat(world, buyer, tokenId, ask, nonce);
+    return {
+      attack: "wash_gated_buy",
+      success: false,
+      reason: "UNEXPECTED: wash-gated buy succeeded",
+      explorerHint: "lab://unexpected-success",
+    };
+  } catch (e) {
+    return {
+      attack: "wash_gated_buy",
+      success: false,
+      reason: e instanceof Error ? e.message : String(e),
+      explorerHint: `lab://wash-buy/${tokenId}`,
+    };
+  }
 }
 
 /**

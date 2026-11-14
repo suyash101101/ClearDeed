@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>CleanDeed · live explorer proof</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #0c0a08;
+        --ink: #f3efe6;
+        --mute: rgba(243, 239, 230, 0.62);
+        --line: rgba(255, 255, 255, 0.12);
+        --ok: #3d9a6a;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: Manrope, system-ui, sans-serif;
+      }
+      #gate {
+        position: fixed;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        background: var(--bg);
+        z-index: 5;
+        transition: opacity 0.35s ease;
+      }
+      #gate.hide {
+        opacity: 0;
+        pointer-events: none;
+      }
+      .card {
+        width: min(28rem, 92vw);
+        padding: 1.5rem 1.35rem;
+        border: 1px solid var(--line);
+        text-align: center;
+      }
+      .card p {
+        margin: 0;
+        font-size: 12px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--mute);
+      }
+      .card h1 {
+        margin: 0.55rem 0 1rem;
+        font-size: 1.15rem;
+        font-weight: 600;
+      }
+      .bar {
+        height: 3px;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.08);
+        overflow: hidden;
+      }
+      .bar > span {
+        display: block;
+        height: 100%;
+        width: 0;
+        background: var(--ok);
+        animation: load 2s linear forwards;
+      }
+      @keyframes load {
+        to {
+          width: 100%;
+        }
+      }
+      main {
+        min-height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+      header {
+        padding: 1rem 1.5rem;
+        border-bottom: 1px solid var(--line);
+      }
+      header p {
+        margin: 0;
+        font-size: 12px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--mute);
+      }
+      header h1 {
+        margin: 0.35rem 0 0;
+        font-size: 1.25rem;
+        font-weight: 600;
+      }
+      header .meta {
+        margin: 0.45rem 0 0;
+        color: var(--mute);
+        font-size: 0.9rem;
+        max-width: 46rem;
+        line-height: 1.45;
+      }
+      header a {
+        color: inherit;
+      }
+      .shot {
+        flex: 1;
+        padding: 1rem 1.5rem 2rem;
+        display: grid;
+        place-items: center;
+      }
+      .shot img {
+        width: 100%;
+        max-height: calc(100vh - 9rem);
+        object-fit: contain;
+        background: #111;
+        border: 1px solid var(--line);
+      }
+      .missing {
+        color: var(--mute);
+        text-align: center;
+        max-width: 36rem;
+        line-height: 1.5;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="gate" aria-live="polite">
+      <div class="card">
+        <p>Nearblocks · testnet</p>
+        <h1>Security verification</h1>
+        <div class="bar"><span></span></div>
+      </div>
+    </div>
+
+    <main>
+      <header>
+        <p>Live explorer proof</p>
+        <h1>Old-owner withdraw · EXPECTED FAIL</h1>
+        <p class="meta">
+          Filmed testnet refuse —
+          <a
+            href="https://testnet.nearblocks.io/txns/DdKFyCUWUiXS1JA9LQji43VBB2gBe6jxdPRvsxRuRRBp"
+            target="_blank"
+            rel="noreferrer"
+            >DdKFyCUW…RRBp</a
+          >
+          · panic: withdraw refused: not current owner
+        </p>
+      </header>
+      <div class="shot">
+        <img
+          id="proof"
+          src="./explorer-proof.png"
+          alt="Nearblocks old-owner withdraw refuse"
+          hidden
+        />
+        <p id="missing" class="missing" hidden>
+          Drop your Nearblocks screenshot here as
+          <code>apps/web/public/demo-diagrams/explorer-proof.png</code>
+          then re-record. Until then this page still shows the 2s security gate + link.
+        </p>
+      </div>
+    </main>
+
+    <script>
+      const img = document.getElementById("proof");
+      const missing = document.getElementById("missing");
+      const gate = document.getElementById("gate");
+      img.addEventListener("load", () => {
+        img.hidden = false;
+        missing.hidden = true;
+      });
+      img.addEventListener("error", () => {
+        img.hidden = true;
+        missing.hidden = false;
+      });
+      // Force check (cached img may not fire load)
+      if (img.complete && img.naturalWidth > 0) {
+        img.hidden = false;
+        missing.hidden = true;
+      } else if (img.complete) {
+        missing.hidden = false;
+      }
+      setTimeout(() => gate.classList.add("hide"), 2000);
+    </script>
+  </body>
+</html>

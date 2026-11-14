@@ -14,7 +14,7 @@ export function WarrantyStrip() {
         <div className="ours">
           <p className="meta">What CleanDeed warrants</p>
           <strong>Earning title is clean</strong>
-          <p className="meta">0 keys · pending follows you · tip continuity · Lab refuses seller recall.</p>
+          <p className="meta">0 keys · pending follows you · tip derive · Lab refuses seller recall.</p>
         </div>
       </div>
       <Link className="pin-link" href="/title/3">

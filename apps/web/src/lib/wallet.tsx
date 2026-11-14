@@ -10,7 +10,7 @@ import {
   type ReactNode,
 } from "react";
 import { NearConnector } from "@hot-labs/near-connect";
-import { getQuitClaimClient, clubIdFromEnv } from "@/lib/client";
+import { getCleanDeedClient, clubIdFromEnv } from "@/lib/client";
 import { NETWORK } from "@/lib/near";
 import { encodeBuyTicket, type VenueSpec } from "@/sdk";
 
@@ -35,7 +35,7 @@ export function WalletProvider({ children }: { children: ReactNode }) {
   const [connector, setConnector] = useState<NearConnector | null>(null);
   const [accountId, setAccountId] = useState<string | null>(null);
   const [connecting, setConnecting] = useState(false);
-  const client = useMemo(() => getQuitClaimClient(), []);
+  const client = useMemo(() => getCleanDeedClient(), []);
 
   useEffect(() => {
     const network = NETWORK === "mainnet" ? "mainnet" : "testnet";

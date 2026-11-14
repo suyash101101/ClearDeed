@@ -8,24 +8,29 @@ test.describe("P0/P1 depth — title insurance layer", () => {
     await expect(page.locator("h1")).toContainText(/CleanDeed/i);
     await expect(page.getByText(/Title insurance for earning seats/i)).toBeVisible();
     await expect(
-      page.getByText(/title policy any venue attaches|Provably clean title/i).first(),
+      page.getByText(/title policy any venue attaches/i).first(),
     ).toBeVisible();
     await expect(page.getByText(/nfts · title policy/i)).toBeVisible();
+    await expect(page.getByRole("button", { name: /Open Seat #3/i })).toBeVisible();
+    await expect(page.getByRole("button", { name: /Prove seller recall fails/i })).toBeVisible();
+    await expect(page.getByText(/Mainnet micro-cycle not filmed|Testnet specimen/i).first()).toBeVisible();
     await expect(page.getByText(/business track|autonomous-business/i)).toHaveCount(0);
   });
 
-  test("lab receipt wall has ≥8 named attacks @smoke", async ({ page }) => {
+  test("lab receipt wall has filmed + Preview skeptic rows @smoke", async ({ page }) => {
     await page.goto("/lab");
     await hideDevChrome(page);
     const receipts = page.locator(".lab-receipt-grid > li");
-    await expect(receipts).toHaveCount(10);
+    expect(await receipts.count()).toBeGreaterThanOrEqual(8);
     await expect(page.getByText(/Held-sig raw sign while listed/i)).toBeVisible();
     await expect(page.getByText(/Old owner withdraw after sale/i)).toBeVisible();
     await expect(page.getByText(/Sign-epoch bump on list/i)).toBeVisible();
-    await expect(page.getByText(/Tip address continuity across sale/i)).toBeVisible();
-    await expect(page.getByText(/Wash-flagged seat buy/i)).toBeVisible();
+    await expect(page.getByText(/Mid-payout seat purchase/i)).toBeVisible();
+    await expect(page.locator(".lab-receipt-grid").getByText(/Stale listing nonce buy/i)).toBeVisible();
+    await expect(page.locator(".lab-receipt-grid").getByText(/Wash-gated buy/i)).toBeVisible();
+    await expect(page.getByText(/6 filmed|filmed explorer|filmed unique/i).first()).toBeVisible();
     const links = page.locator(".lab-receipt-grid a.mono");
-    expect(await links.count()).toBeGreaterThanOrEqual(8);
+    expect(await links.count()).toBeGreaterThanOrEqual(6);
   });
 
   test("full mid-payout + tip continuity + lease strip @smoke", async ({ page }) => {
@@ -84,6 +89,12 @@ test.describe("P0/P1 depth — title insurance layer", () => {
 
     await page.getByRole("button", { name: /Held-sig raw sign/i }).click({ force: true });
     await expect(page.getByText(/EXPECTED FAIL|refused|freeze/i).first()).toBeVisible();
+
+    await page.getByRole("button", { name: /Stale nonce buy/i }).click({ force: true });
+    await expect(page.getByText(/EXPECTED FAIL|stale/i).first()).toBeVisible();
+
+    await page.getByRole("button", { name: /Wash-gated buy/i }).click({ force: true });
+    await expect(page.getByText(/EXPECTED FAIL|wash|FIX/i).first()).toBeVisible();
 
     await page.getByRole("button", { name: /Wash flag/i }).click({ force: true });
     await expect(page.getByText(/FIX|wash/i).first()).toBeVisible();

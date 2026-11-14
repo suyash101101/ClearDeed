@@ -11,6 +11,8 @@ import {
   labHeldSig,
   labListedWithdraw,
   labOldOwnerWithdraw,
+  labStaleNonceBuy,
+  labWashBuy,
   labWashPath,
   listSeat,
   offerLease,
@@ -97,7 +99,10 @@ interface AppState {
   doOfferLease: (tokenId: string, ask: number, durationMs: number) => void;
   doTakeLease: (tokenId: string) => void;
   doSettleLease: (tokenId: string) => void;
-  runLab: (kind: "old" | "listed" | "held" | "wash" | "mid", tokenId: string) => void;
+  runLab: (
+    kind: "old" | "listed" | "held" | "wash" | "stale" | "washBuy" | "mid",
+    tokenId: string,
+  ) => void;
   runMidPayoutScenario: () => void;
   runJudgePath: () => void;
 }
@@ -326,9 +331,10 @@ export const useApp = create<AppState>((set, get) => ({
     if (kind === "old" && seat.owner === "seller.near") {
       const nonce = listSeat(world, "seller.near", tokenId, 100);
       buySeat(world, "buyer.near", tokenId, 100, nonce);
-    } else if (kind === "listed" && seat.encumbrance !== "LISTED") {
-      listSeat(world, seat.owner, tokenId, 100);
-    } else if (kind === "held" && seat.encumbrance !== "LISTED") {
+    } else if (
+      (kind === "listed" || kind === "held" || kind === "stale") &&
+      seat.encumbrance !== "LISTED"
+    ) {
       listSeat(world, seat.owner, tokenId, 100);
     }
 
@@ -336,12 +342,16 @@ export const useApp = create<AppState>((set, get) => ({
     if (kind === "old") lastLab = labOldOwnerWithdraw(world, "seller.near", tokenId);
     else if (kind === "listed") lastLab = labListedWithdraw(world, world.seats[tokenId]!.owner, tokenId);
     else if (kind === "held") lastLab = labHeldSig(world, world.seats[tokenId]!.owner, tokenId);
+    else if (kind === "stale") lastLab = labStaleNonceBuy(world, "buyer.near", tokenId);
+    else if (kind === "washBuy") lastLab = labWashBuy(world, "buyer.near", tokenId);
     else if (kind === "mid") {
       get().runMidPayoutScenario();
       return;
     } else lastLab = labWashPath(world, tokenId);
 
-    const proof = labExplorerProof(kind === "wash" ? null : kind);
+    const filmed =
+      kind === "old" || kind === "listed" || kind === "held" ? kind : null;
+    const proof = labExplorerProof(filmed);
     set({
       world,
       lastLab,

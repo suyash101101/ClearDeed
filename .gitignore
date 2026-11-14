@@ -22,3 +22,7 @@ apps/web/e2e/.auth/
 docs/diagrams/keyframes/
 cleartitle-loop-status.md
 apps/web/tsconfig.tsbuildinfo
+# Local demo recordings — never commit binaries
+docs/demo-video/*.mp4
+docs/demo-video/*.webm
+docs/demo-video/*-timeline.json

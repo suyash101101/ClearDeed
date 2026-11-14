@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-/** Tip addresses stay continuous across ownership flips — hero Chain Sig beat. */
+/** Tip path continuity — deterministic derive/preview, not live MPC spend. */
 export function TipContinuity({
   btc = "bc1q…ct3",
   sol = "SoL…ct3",
@@ -19,15 +19,16 @@ export function TipContinuity({
 
   return (
     <aside className="tip-continuity" aria-label="Cross-chain tip continuity">
-      <p className="chapter-kicker">Chain Sig · tip continuity</p>
-      <h3>Control flips. Tips do not.</h3>
+      <p className="chapter-kicker">Chain Sig · derive / preview</p>
+      <h3>Control flips. Tip paths do not.</h3>
       <p className="meta" style={{ marginBottom: "0.65rem" }}>
-        BTC/SOL tip addresses derive from the vault path. Sale bumps ownership + sign epoch — not
-        the tip addresses.
+        BTC/SOL tip addresses are <strong>deterministic derives</strong> from the vault path
+        (preview). Sale bumps ownership + sign epoch — not the tip paths.{" "}
+        <em>Live MPC tip spend is roadmap, not claimed here.</em>
       </p>
       <div className="tip-continuity-grid">
         <div className="tip-cell">
-          <p className="meta">BTC tip</p>
+          <p className="meta">BTC tip · derive</p>
           <p className="mono tip-addr" title={btc}>
             {btc}
           </p>
@@ -38,7 +39,7 @@ export function TipContinuity({
           )}
         </div>
         <div className="tip-cell">
-          <p className="meta">SOL tip</p>
+          <p className="meta">SOL tip · derive</p>
           <p className="mono tip-addr" title={sol}>
             {sol}
           </p>
@@ -50,7 +51,7 @@ export function TipContinuity({
         </div>
         <div className="tip-cell tip-cell-note">
           <p className="meta">Across sale</p>
-          <strong>{continuous ? "Same addresses" : "Check derive"}</strong>
+          <strong>{continuous ? "Same derive paths" : "Check derive"}</strong>
           <p className="meta">Buyer inherits · seller loses claim · no re-key</p>
         </div>
       </div>

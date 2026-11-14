@@ -1,6 +1,6 @@
-/** Typed RPC views bound to NEXT_PUBLIC_CONTRACT_ID via QuitClaimClient. */
+/** Typed RPC views bound to NEXT_PUBLIC_CONTRACT_ID via CleanDeedClient. */
 
-import { getQuitClaimClient, clubIdFromEnv } from "@/lib/client";
+import { getCleanDeedClient, clubIdFromEnv } from "@/lib/client";
 import type {
   ChainClubView as ChainClub,
   ChainDiligenceView as ChainDiligence,
@@ -10,25 +10,25 @@ import type {
 export type { ChainClub, ChainDiligence, ChainSeat };
 
 export function seatBuyNonce(seat: ChainSeat): number {
-  return getQuitClaimClient().buyNonce(seat);
+  return getCleanDeedClient().buyNonce(seat);
 }
 
 export function viewClub(clubId?: string) {
-  return getQuitClaimClient().getClub(clubId ?? clubIdFromEnv());
+  return getCleanDeedClient().getClub(clubId ?? clubIdFromEnv());
 }
 
 export function viewSeat(tokenId: string, clubId?: string) {
-  return getQuitClaimClient().getSeat(tokenId, clubId ?? clubIdFromEnv());
+  return getCleanDeedClient().getSeat(tokenId, clubId ?? clubIdFromEnv());
 }
 
 export function viewDiligence(tokenId: string, clubId?: string) {
-  return getQuitClaimClient().diligence(tokenId, clubId ?? clubIdFromEnv());
+  return getCleanDeedClient().diligence(tokenId, clubId ?? clubIdFromEnv());
 }
 
 export function viewSeats(clubId?: string) {
-  return getQuitClaimClient().listSeats(clubId ?? clubIdFromEnv());
+  return getCleanDeedClient().listSeats(clubId ?? clubIdFromEnv());
 }
 
 export function viewClubIds() {
-  return getQuitClaimClient().listClubs();
+  return getCleanDeedClient().listClubs();
 }

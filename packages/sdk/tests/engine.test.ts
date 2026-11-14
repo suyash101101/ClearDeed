@@ -11,6 +11,8 @@ import {
   labHeldSig,
   labListedWithdraw,
   labOldOwnerWithdraw,
+  labStaleNonceBuy,
+  labWashBuy,
   labWashPath,
   listSeat,
   mintSeats,
@@ -136,6 +138,22 @@ describe("S4–S6 mid-payout sale", () => {
     const world = seedPreviewWorld();
     listSeat(world, "seller.near", "3", 100);
     expect(() => buySeat(world, "buyer.near", "3", 100, 999)).toThrow(/stale/);
+  });
+
+  it("lab_stale_nonce_buy_expected_fail", () => {
+    const world = seedPreviewWorld();
+    const lab = labStaleNonceBuy(world, "buyer.near", "3");
+    expect(lab.attack).toBe("stale_nonce_buy");
+    expect(lab.reason).toMatch(/stale/i);
+    expect(lab.reason).not.toMatch(/UNEXPECTED/);
+  });
+
+  it("lab_wash_buy_expected_fail", () => {
+    const world = seedPreviewWorld();
+    const lab = labWashBuy(world, "buyer.near", "3");
+    expect(lab.attack).toBe("wash_gated_buy");
+    expect(lab.reason).toMatch(/wash|FIX/i);
+    expect(lab.reason).not.toMatch(/UNEXPECTED/);
   });
 });
 

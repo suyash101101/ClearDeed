@@ -2,22 +2,22 @@
 
 import type { Seat } from "@/sdk/types";
 
-/** Tip continuity after sale — door-ticket NFTs never show this. */
+/** Tip path continuity after sale — derive/preview, not live MPC spend. */
 export function ContinuityStrip({ seat }: { seat: Seat }) {
   const hops = seat.holderHistory.length;
   const flips = Math.max(0, hops - 1);
   return (
     <aside className="continuity-strip" aria-label="Continuity across sales">
-      <p className="chapter-kicker">Continuity across sales</p>
+      <p className="chapter-kicker">Continuity · derive / preview</p>
       <div className="continuity-strip-grid">
         <div className="tip-cell">
-          <span className="meta">BTC tip</span>
+          <span className="meta">BTC tip · derive</span>
           <strong className="mono tip-addr" title={seat.btcAddress}>
             {seat.btcAddress}
           </strong>
         </div>
         <div className="tip-cell">
-          <span className="meta">SOL tip</span>
+          <span className="meta">SOL tip · derive</span>
           <strong className="mono tip-addr" title={seat.solAddress}>
             {seat.solAddress}
           </strong>
@@ -34,7 +34,7 @@ export function ContinuityStrip({ seat }: { seat: Seat }) {
         </div>
       </div>
       <p className="meta">
-        {`Control flipped ${flips} ${flips === 1 ? "time" : "times"}. Tip paths stayed put.`}
+        {`Control flipped ${flips} ${flips === 1 ? "time" : "times"}. Derive tip paths stayed put. MPC spend = roadmap.`}
       </p>
     </aside>
   );

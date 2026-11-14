@@ -8142,6 +8142,40 @@ html[data-theme="light"] .geo-network-lg {
   }
 }
 
+/* Scope honesty + judge rail (score lifts) */
+.scope-honesty {
+  margin: 0 0 1.25rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid color-mix(in srgb, var(--color-warn, #b45309) 35%, transparent);
+  border-radius: 0;
+  background: color-mix(in srgb, var(--color-warn, #b45309) 6%, transparent);
+}
+.scope-honesty-compact {
+  margin: 0.5rem 0 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+.judge-rail {
+  display: grid;
+  gap: 1rem;
+  margin: 0 0 1.5rem;
+  padding: 0 1.25rem;
+}
+@media (min-width: 900px) {
+  .judge-rail {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+}
+.hero-tight .brand-meaning {
+  margin-bottom: 0.75rem;
+}
+.hero-tight .hero-cta {
+  margin-top: 0.85rem;
+  justify-content: center;
+}
+
 /* Flash toast with clickable explorer hash */
 .flash {
   display: flex !important;

@@ -92,12 +92,15 @@ export function LeaseStrip({ tokenId }: { tokenId: string }) {
 
   return (
     <aside className="warranty-strip" aria-label="Seat-cut lease">
-      <p className="chapter-kicker">Seat-cut lease</p>
+      <p className="chapter-kicker">
+        Seat-cut lease ·{" "}
+        <span className="badge scenario">{productMode === "live" ? "Preview-only UI" : "Preview"}</span>
+      </p>
       <h3>Rent the cut. Keep the title.</h3>
       <p className="meta" style={{ marginBottom: "0.75rem" }}>
         {productMode === "live"
-          ? "On-chain lease methods ship on next redeploy · Preview runs the full reverse-heist now."
-          : "Renter claims ticket cuts until expiry. List/buy blocked while active. Expiry clears title."}
+          ? "Honest scope: lease offer/take/settle is Preview + SDK today. Do not treat Live mode as on-specimen lease until a redeploy films explorer receipts."
+          : "Preview reverse-heist: renter claims ticket cuts until expiry. List/buy blocked while active. Expiry clears title. Not a filmed Live claim."}
       </p>
       <p className="meta" data-testid="lease-status">
         {statusText}

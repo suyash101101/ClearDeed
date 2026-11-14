@@ -1,5 +1,5 @@
 /**
- * Bound QuitClaim client for real integrations.
+ * Bound CleanDeed client for real integrations.
  * Construct once with your contract account; all views/encodings inherit it.
  */
 
@@ -7,7 +7,7 @@ import {
   assertVenueSpec,
   resolveExplorer,
   resolveRpc,
-  type QuitClaimConfig,
+  type CleanDeedConfig,
   type NearNetwork,
   type VenueSpec,
 } from "./config";
@@ -41,16 +41,16 @@ import {
 import { assertCleanChainToBuy } from "./policy";
 import { quoteTicketIntentDry, type IntentTicketDryQuote } from "./intents";
 
-export class QuitClaimClient {
+export class CleanDeedClient {
   readonly contractId: string;
   readonly network: NearNetwork;
   readonly rpcUrl: string;
   readonly clubId?: string;
   readonly explorerBase: string;
 
-  constructor(cfg: QuitClaimConfig) {
+  constructor(cfg: CleanDeedConfig) {
     if (!cfg.contractId?.trim()) {
-      throw new Error("QuitClaimClient requires contractId");
+      throw new Error("CleanDeedClient requires contractId");
     }
     this.contractId = cfg.contractId.trim();
     this.network = cfg.network ?? "testnet";
@@ -60,8 +60,8 @@ export class QuitClaimClient {
   }
 
   /** Return a client scoped to a venue on the same contract. */
-  withClub(clubId: string): QuitClaimClient {
-    return new QuitClaimClient({
+  withClub(clubId: string): CleanDeedClient {
+    return new CleanDeedClient({
       contractId: this.contractId,
       network: this.network,
       rpcUrl: this.rpcUrl,
@@ -235,22 +235,32 @@ export class QuitClaimClient {
 /** Build a client from env-style vars (Node / Next public config). */
 export function clientFromEnv(
   env: Record<string, string | undefined> = typeof process !== "undefined" ? process.env : {},
-): QuitClaimClient {
+): CleanDeedClient {
   const contractId =
+    env.CLEANDEED_CONTRACT_ID ??
     env.QUITCLAIM_CONTRACT_ID ??
     env.NEXT_PUBLIC_CONTRACT_ID ??
     env.CLEARTITLE_CONTRACT_ID ??
     env.CONTRACT_ID;
   if (!contractId) {
     throw new Error(
-      "Set QUITCLAIM_CONTRACT_ID or NEXT_PUBLIC_CONTRACT_ID to your deployed contract",
+      "Set CLEANDEED_CONTRACT_ID or NEXT_PUBLIC_CONTRACT_ID to your deployed contract",
     );
   }
-  const network = (env.QUITCLAIM_NETWORK ??
+  const network = (env.CLEANDEED_NETWORK ??
+    env.QUITCLAIM_NETWORK ??
     env.NEXT_PUBLIC_NEAR_NETWORK ??
     env.CLEARTITLE_NETWORK ??
     "testnet") as NearNetwork;
-  const clubId = env.QUITCLAIM_CLUB_ID ?? env.NEXT_PUBLIC_CLUB_ID ?? env.CLEARTITLE_CLUB_ID;
-  const rpcUrl = env.QUITCLAIM_RPC ?? env.NEXT_PUBLIC_NEAR_RPC ?? env.CLEARTITLE_RPC;
-  return new QuitClaimClient({ contractId, network, clubId, rpcUrl });
+  const clubId =
+    env.CLEANDEED_CLUB_ID ??
+    env.QUITCLAIM_CLUB_ID ??
+    env.NEXT_PUBLIC_CLUB_ID ??
+    env.CLEARTITLE_CLUB_ID;
+  const rpcUrl =
+    env.CLEANDEED_RPC ??
+    env.QUITCLAIM_RPC ??
+    env.NEXT_PUBLIC_NEAR_RPC ??
+    env.CLEARTITLE_RPC;
+  return new CleanDeedClient({ contractId, network, clubId, rpcUrl });
 }

@@ -48,7 +48,7 @@ export function quoteTicketIntentDry(opts: QuoteTicketIntentOpts): IntentTicketD
       note: "Seat title still settles only after NEAR buy_ticket + diligence on buy_seat",
     },
     disclaimer:
-      "dry:true — no funds move. Live Intents settlement is optional; QuitClaim title stays on NEAR.",
+      "dry:true — no funds move. Live Intents settlement is optional; CleanDeed title stays on NEAR.",
   };
 }
 

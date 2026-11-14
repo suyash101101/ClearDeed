@@ -11,10 +11,14 @@ import {
 } from "lucide-react";
 import { GeoNetwork } from "@/components/GeoNetwork";
 import { HomeActions } from "@/components/HomeActions";
+import { JudgeCheatSheet } from "@/components/JudgeCheatSheet";
+import { NinetySecondPath } from "@/components/NinetySecondPath";
 import { OrbitalCTA } from "@/components/OrbitalCTA";
+import { ScopeHonesty } from "@/components/ScopeHonesty";
 import { StoryHorizScroll } from "@/components/StoryHorizScroll";
 import { TestnetPanel } from "@/components/TestnetPanel";
 import { TicketRoll3D } from "@/components/TicketRoll3D";
+import type { RollTicket } from "@/components/TicketRoll";
 import { BentoCard, BentoGrid } from "@/components/ui/bento-grid";
 import {
   DiligenceStampCard,
@@ -23,7 +27,7 @@ import {
   SeatDeedCard,
   TitleScoreCard,
 } from "@/components/assets/StoryAssets";
-import { BRAND, BRAND_BLURB, BRAND_MEANING, BRAND_TAGLINE } from "@/lib/brand";
+import { BRAND, BRAND_MEANING, BRAND_TAGLINE } from "@/lib/brand";
 
 function Reveal({
   children,
@@ -63,7 +67,7 @@ const BEATS = [
     id: "vault",
     kicker: "02 · Five NEP-171 seat deeds",
     title: "Any seat classes you define. Each earns on every ticket.",
-    body: "Any venue on one contract. Founding seat NFTs are keyless vaults that take a cut of every door fee. Control flips. Tip addresses do not.",
+    body: "Any venue on one contract. Founding seat NFTs are keyless vaults that take a cut of every door fee. Control flips. Tip paths stay derived from the vault.",
     href: "/inventory",
     cta: "Browse seat inventory",
     asset: <SeatDeedCard />,
@@ -73,7 +77,7 @@ const BEATS = [
     id: "sale",
     kicker: "03 · Pending cuts follow the buyer",
     title: "Buy while money is still in flight.",
-    body: "Ada lists Seat #3 while a ticket cut is pending. Priya buys. The pending cut rebounds. Old-owner withdraw fails on live testnet.",
+    body: "Seller lists Seat #3 while a ticket cut is pending. Buyer takes title. The pending cut rebounds. Old-owner withdraw fails on live testnet.",
     href: "/seat/3",
     cta: "Open Seat #3 live",
     asset: <OwnershipFlipCard />,
@@ -96,18 +100,27 @@ const BEATS = [
   {
     id: "prove",
     kicker: "05 · Prove it",
-    title: "Every refuse has an explorer receipt.",
-    body: "Transfer Lab arms seller-recall, listed drain, and held-sig. Each fails on-chain. /verify shows the explorer receipts first, then the promise → method → test map.",
+    title: "Every refuse has a receipt — filmed or Preview-reproducible.",
+    body: "Transfer Lab arms seller-recall, listed drain, held-sig, stale nonce, and wash-gated buy. Filmed rows link Nearblocks; Preview rows re-run without a wallet.",
     href: "/verify",
     cta: "Open proof matrix",
     asset: <FailSlipCard title="EXPECTED FAIL" reason="not current owner · live RPC" />,
   },
 ];
 
+/** Landing roll always has founding sheets — not tied to live/world emptiness. */
+const FOUNDING_ROLL: RollTicket[] = [
+  { id: "1", tier: "A", owner: "unminted", keys: 0, status: "FREE" },
+  { id: "2", tier: "A", owner: "unminted", keys: 0, status: "FREE" },
+  { id: "3", tier: "Founders", owner: "unminted", keys: 0, status: "FREE" },
+  { id: "4", tier: "B", owner: "unminted", keys: 0, status: "FREE" },
+  { id: "5", tier: "C", owner: "unminted", keys: 0, status: "FREE" },
+];
+
 export function StoryJourney() {
   return (
     <div className="story near-theme x-ads-story">
-      <section className="near-hero x-hero" aria-label={`${BRAND}`}>
+      <section className="near-hero x-hero hero-tight" aria-label={BRAND}>
         <div className="near-hero-inner hero-centered">
           <p className="chapter-kicker">NEAR · nfts · title policy</p>
           <h1>
@@ -115,23 +128,28 @@ export function StoryJourney() {
             <span className="h1-sub">{BRAND_TAGLINE}</span>
           </h1>
           <p className="brand-meaning">{BRAND_MEANING}</p>
-          <div className="x-hero-media">
+          <div className="x-hero-media" aria-hidden>
             <GeoNetwork />
           </div>
-          <p className="story-lede">{BRAND_BLURB}</p>
           <HomeActions />
         </div>
       </section>
 
       <section className="live-strip" aria-label="Live testnet">
         <TestnetPanel compact />
+        <ScopeHonesty compact />
+      </section>
+
+      <section className="judge-rail dense" aria-label="Judge path">
+        <NinetySecondPath />
+        <JudgeCheatSheet />
       </section>
 
       <section className="seat-class-section dense" aria-label="Seat mint roll">
         <Reveal>
           <p className="chapter-kicker">Mint · drag & tear</p>
           <h2>Pull the paper. Tear a seat NFT.</h2>
-          <TicketRoll3D mode="mint" />
+          <TicketRoll3D tickets={FOUNDING_ROLL} mode="mint" />
         </Reveal>
       </section>
 
@@ -148,7 +166,7 @@ export function StoryJourney() {
             name="Transfer Lab"
             className="bento-span-2"
             Icon={FlaskConical}
-            description="Seller recall, listed drain, held-sig. Each refuses with explorer receipts."
+            description="Seller recall, listed drain, held-sig, stale nonce, wash buy. Filmed + Preview refuses."
             href="/lab"
             cta="Open Lab"
           />
@@ -182,6 +200,7 @@ export function StoryJourney() {
       <section className="finale dense">
         <Reveal>
           <h2>Prove it on testnet.</h2>
+          <ScopeHonesty />
           <div className="cta-row">
             <Link className="btn" href="/lab">
               Transfer Lab

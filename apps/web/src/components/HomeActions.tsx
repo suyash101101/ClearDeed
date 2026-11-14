@@ -1,15 +1,15 @@
 "use client";
 
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useApp } from "@/lib/store";
 
+/** First-viewport CTA group — one primary path, one prove path. */
 export function HomeActions() {
   const router = useRouter();
   const resetDemo = useApp((s) => s.resetDemo);
   const runMidPayoutScenario = useApp((s) => s.runMidPayoutScenario);
   return (
-    <div className="cta-row">
+    <div className="cta-row hero-cta">
       <button
         type="button"
         onClick={() => {
@@ -29,9 +29,6 @@ export function HomeActions() {
       >
         Prove seller recall fails
       </button>
-      <Link className="btn ghost" href="/inventory">
-        All seat NFTs
-      </Link>
     </div>
   );
 }

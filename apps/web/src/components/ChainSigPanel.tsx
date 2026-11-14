@@ -30,13 +30,15 @@ export function ChainSigPanel({ vaultAccountId }: { vaultAccountId: string }) {
 
   return (
     <div className="panel" style={{ marginTop: "1.25rem" }}>
-      <h3>Chain Signatures continuity</h3>
+      <h3>Chain Signatures · derive / preview</h3>
       <p className="meta">
-        Live derive from vault <span className="mono">{vaultAccountId}</span> via{" "}
-        <span className="mono">v1.signer-prod.testnet</span>. Addresses stay stable across seat sales.
+        Deterministic derive from vault <span className="mono">{vaultAccountId}</span> via{" "}
+        <span className="mono">v1.signer-prod.testnet</span>. Tip paths stay stable across seat
+        sales. This panel does <strong>not</strong> claim live MPC foreign-chain signing or tip
+        spend.
       </p>
       <p className="meta">
-        <span className="badge ok">Shipped · derive</span>{" "}
+        <span className="badge ok">Shipped · derive / preview</span>{" "}
         <span className="badge">Roadmap · MPC tip spend</span>
       </p>
       {loading && <p className="meta">Deriving…</p>}

@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { FlaskConical, LayoutGrid, ShieldCheck, Ticket } from "lucide-react";
 import { VERIFY_CLAIMS } from "@/sdk";
-import { CONTRACT_ID, LAB_ATTACKS, txUrl } from "@/lib/evidence";
+import { CONTRACT_ID, LAB_ATTACKS, LAB_FILMED_COUNT, txUrl } from "@/lib/evidence";
 import { ClaimClock } from "@/components/ClaimClock";
 import { JudgeStampPanel } from "@/components/JudgeStampPanel";
 import { ProofShare } from "@/components/ProofShare";
+import { ScopeHonesty } from "@/components/ScopeHonesty";
 import { WarrantyStrip } from "@/components/WarrantyStrip";
 import { BentoCard, BentoGrid } from "@/components/ui/bento-grid";
 import { PageHeader } from "@/components/ui/page-header";
@@ -17,11 +18,12 @@ export default function VerifyPage() {
         title="/verify"
         lede={
           <>
-            Start with live explorer receipts. The table below is only the promise → method →
-            test map — not another hash list. Re-run <span className="mono">pnpm evidence</span>.
+            Start with {LAB_FILMED_COUNT} filmed explorer receipts. Preview rows answer stale
+            nonce + wash buy locally. Re-run <span className="mono">pnpm evidence</span>.
           </>
         }
       />
+      <ScopeHonesty compact />
 
       <BentoGrid className="page-bento">
         <BentoCard
@@ -62,8 +64,8 @@ export default function VerifyPage() {
           <span className="badge rpc">Testnet RPC</span> Receipt wall
         </h3>
         <p className="meta" style={{ marginBottom: "0.85rem" }}>
-          Click any hash → Nearblocks. These are the on-chain refuses (and one mid-payout
-          success) judges should open in the demo.
+          Filmed hashes → Nearblocks. Preview rows have no explorer link — re-run in Lab or{" "}
+          <span className="mono">pnpm heist</span>.
         </p>
         <ul className="lab-receipt-grid">
           {LAB_ATTACKS.map((a) => (
@@ -73,10 +75,23 @@ export default function VerifyPage() {
               </span>
               <div>
                 <strong>{a.title}</strong>
-                <p className="meta">{a.reason}</p>
-                <a className="mono" href={txUrl(a.tx)} target="_blank" rel="noreferrer">
-                  {a.tx.slice(0, 18)}…
-                </a>
+                <p className="meta">
+                  {a.proof === "filmed" ? (
+                    <span className="badge ok">Filmed</span>
+                  ) : (
+                    <span className="badge scenario">Preview</span>
+                  )}{" "}
+                  {a.reason}
+                </p>
+                {a.tx ? (
+                  <a className="mono" href={txUrl(a.tx)} target="_blank" rel="noreferrer">
+                    {a.tx.slice(0, 18)}…
+                  </a>
+                ) : (
+                  <Link className="pin-link" href="/lab">
+                    Re-run in Lab →
+                  </Link>
+                )}
               </div>
             </li>
           ))}
@@ -113,6 +128,14 @@ export default function VerifyPage() {
           <li>
             <span className="fail">✕</span>
             <span>Held raw sign while listed · refused · epoch freeze</span>
+          </li>
+          <li>
+            <span className="fail">✕</span>
+            <span>Stale listing nonce buy · refused · Preview + unit</span>
+          </li>
+          <li>
+            <span className="fail">✕</span>
+            <span>Wash-gated buy · refused · Preview + unit</span>
           </li>
           <li>
             <span className="pass">✓</span>

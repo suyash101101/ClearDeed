@@ -28,7 +28,7 @@ const STEPS = [
   {
     n: "02",
     title: "SDK surface",
-    body: "Publish @quitclaim/sdk so organizers and agents run the mid-payout path without forking the demo UI.",
+    body: "Publish @cleandeed/sdk so organizers and agents run the mid-payout path without forking the demo UI.",
   },
   {
     n: "03",
@@ -86,7 +86,7 @@ export default function ScalePage() {
           <Link className="btn ghost" href="/verify">
             Claim matrix
           </Link>
-          <Link className="btn ghost" href="https://github.com/suyash101101/QuitClaim">
+          <Link className="btn ghost" href="https://github.com/suyash101101/ClearDeed">
             Repository
           </Link>
         </div>

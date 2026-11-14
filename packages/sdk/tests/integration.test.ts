@@ -3,7 +3,7 @@ import {
   buySeat,
   buyTicket,
   claimPayout,
-  QuitClaimClient,
+  CleanDeedClient,
   createClub,
   createVenue,
   createWorld,
@@ -127,9 +127,9 @@ describe("multi-venue engine", () => {
   });
 });
 
-describe("QuitClaimClient encodings", () => {
+describe("CleanDeedClient encodings", () => {
   it("encodes a venue create from VenueSpec without demo defaults", () => {
-    const client = new QuitClaimClient({
+    const client = new CleanDeedClient({
       contractId: "my-venue.testnet",
       network: "testnet",
       clubId: "dayfest",

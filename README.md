@@ -8,10 +8,10 @@ CleanDeed is on-chain **title insurance** for memberships that earn — the poli
 | --- | --- |
 | Track | `nfts` only — title insurance for earning seat NFTs |
 | Stack | NEAR · Rust contract · TypeScript SDK · Next.js |
-| Repo | https://github.com/suyash101101/QuitClaim |
+| Repo | https://github.com/suyash101101/ClearDeed |
 | Live | https://quitclaim.vercel.app |
 | Specimen contract | [`cleartitle562464.testnet`](https://explorer.testnet.near.org/accounts/cleartitle562464.testnet) |
-| SDK | [`packages/sdk`](packages/sdk) · `@quitclaim/sdk` |
+| SDK | [`packages/sdk`](packages/sdk) · `@cleandeed/sdk` |
 
 ## Verify
 
@@ -73,19 +73,19 @@ Source [`contracts/cleartitle`](contracts/cleartitle). One CleanDeed contract ho
 - **Diligence stamp.** Named on-chain checks unlock buy. Same view for SDK and UI.
 - **Keyless vaults.** `access_key_count === 0` after mint. Epoch freeze while listed blocks held raw sign.
 - **Any venue.** Create any club_id, ticket price, and seat kinds without forking.
-- **Shippable SDK.** `QuitClaimClient` binds your contract; encode wallet calls without the web UI.
+- **Shippable SDK.** `CleanDeedClient` binds your contract; encode wallet calls without the web UI.
 
 ## Use the SDK
 
 ```bash
-pnpm --filter @quitclaim/sdk test
-QUITCLAIM_CONTRACT_ID=your.contract.testnet QUITCLAIM_LIVE_RPC=1 pnpm --filter @quitclaim/sdk test
+pnpm --filter @cleandeed/sdk test
+QUITCLAIM_CONTRACT_ID=your.contract.testnet QUITCLAIM_LIVE_RPC=1 pnpm --filter @cleandeed/sdk test
 ```
 
 ```ts
-import { QuitClaimClient, createWorld, createVenue } from "@quitclaim/sdk";
+import { CleanDeedClient, createWorld, createVenue } from "@cleandeed/sdk";
 
-const qc = new QuitClaimClient({
+const qc = new CleanDeedClient({
   contractId: "your-cleandeed.testnet",
   network: "testnet",
   clubId: "dayfest",
@@ -109,8 +109,8 @@ createVenue(world, {
 ```bash
 export PATH="$PWD/.tools/bin:$PATH"
 pnpm install
-pnpm --filter @quitclaim/sdk test
-pnpm --filter @quitclaim/web dev
+pnpm --filter @cleandeed/sdk test
+pnpm --filter @cleandeed/web dev
 ```
 
 Copy [`apps/web/.env.example`](apps/web/.env.example) and set `NEXT_PUBLIC_CONTRACT_ID`.

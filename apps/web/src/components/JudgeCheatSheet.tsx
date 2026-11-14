@@ -7,25 +7,28 @@ export function JudgeCheatSheet() {
       <p className="chapter-kicker">Judge cheat sheet · 30s</p>
       <ol className="judge-cheat-list">
         <li>
-          <strong>Club → Preview seed · mid-payout seat</strong>
-          <span className="meta"> ada · pending · FREE — then List @ 100 live</span>
+          <strong>Home · title policy</strong>
+          <span className="meta"> Clubs run ops · CleanDeed attaches the policy</span>
         </li>
         <li>
-          <strong>Lab · Seller recall</strong>
-          <span className="meta"> EXPECTED FAIL · explorer receipt</span>
+          <strong>Seat #3 · List → Buy mid-payout</strong>
+          <span className="meta"> Preview Film ready · rebound · tip derive unchanged</span>
         </li>
         <li>
-          <strong>Title #3</strong>
-          <span className="meta"> PROVABLY CLEAN · 0 keys · tip continuity</span>
+          <strong>Lab · seller recall + stale / wash</strong>
+          <span className="meta"> EXPECTED FAIL · filmed hashes + Preview rows</span>
         </li>
         <li>
-          <strong>Member #3</strong>
-          <span className="meta"> LOCKED until cast = RPC owner</span>
+          <strong>/verify · testnet scope</strong>
+          <span className="meta"> Mainnet micro-cycle not filmed · lease = Preview</span>
         </li>
       </ol>
       <div className="judge-cheat-ctas">
-        <Link className="pin-link" href="/console">
-          Preview seed · mid-payout seat →
+        <Link className="pin-link" href="/seat/3">
+          Seat #3 →
+        </Link>
+        <Link className="pin-link" href="/lab">
+          Transfer Lab →
         </Link>
         <Link className="pin-link" href="/verify">
           /verify matrix →

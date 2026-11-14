@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import type { RollTicket } from "@/components/TicketRoll";
 
@@ -33,9 +33,20 @@ export function TicketRoll3D({
   });
   const remaining = Math.max(0, tickets.length - torn.length);
   const next = tickets[torn.length];
-  const canPull = mode === "mint" && remaining > 0 && !ripping;
+  const canPull = mode === "mint" && remaining > 0 && !ripping && tickets.length > 0;
   const wrapShift = wrapBase + (pull - SHEET_MIN) * 1.05;
   const sheetH = Math.max(SHEET_MIN, pull);
+
+  // Landing never sticks on "Roll empty" — restock founding sheets after a beat.
+  useEffect(() => {
+    if (mode !== "mint" || tickets.length === 0 || remaining > 0 || ripping) return;
+    const id = window.setTimeout(() => {
+      setTorn([]);
+      setWrapBase(0);
+      setPull(SHEET_MIN);
+    }, 1200);
+    return () => window.clearTimeout(id);
+  }, [mode, remaining, ripping, tickets.length]);
 
   const tear = useCallback(() => {
     if (!next || ripping) return;
@@ -156,8 +167,11 @@ export function TicketRoll3D({
                 : "Tearing…"}
           </p>
         )}
-        {mode === "mint" && remaining === 0 && (
-          <p className="meta tp-hint">Roll empty · all founding seats torn.</p>
+        {mode === "mint" && remaining === 0 && tickets.length > 0 && (
+          <p className="meta tp-hint">Restocking founding seats…</p>
+        )}
+        {mode === "mint" && tickets.length === 0 && (
+          <p className="meta tp-hint">No seats on this roll yet.</p>
         )}
 
         <AnimatePresence>

@@ -106,7 +106,7 @@ const NODES = [
   ["Evidence", "package-module", "tx hashes"],
 
   // 27–32 stack
-  ["SDK", "package-module", "@cleartitle/sdk"],
+  ["SDK", "package-module", "@cleandeed/sdk"],
   ["Contract", "server", "testnet"],
   ["Vault #3", "storage", "0 keys"],
   ["Live mode", "switch-module", "vs Preview"],

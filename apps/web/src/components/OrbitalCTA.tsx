@@ -14,15 +14,18 @@ export function OrbitalCTA() {
         <span className="orbit-dot o1" aria-hidden />
         <span className="orbit-dot o2" aria-hidden />
         <span className="orbit-dot o3" aria-hidden />
-        <h2 className="orbital-title">Own every future cut</h2>
+        <h2 className="orbital-title">Attach the title policy</h2>
       </div>
       <div className="orbital-copy">
-        <Link className="btn" href="/console">
-          Open Club Console
+        <Link className="btn" href="/seat/3">
+          Open Seat #3
+        </Link>
+        <Link className="btn ghost" href="/lab">
+          Transfer Lab
         </Link>
       </div>
       <p className="meta orbital-meta">
-        Live FastNear proofs. Pending cuts follow the buyer.
+        Testnet refuses with explorer receipts. Pending cuts follow the buyer.
       </p>
     </section>
   );

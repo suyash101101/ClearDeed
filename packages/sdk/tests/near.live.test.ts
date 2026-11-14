@@ -1,12 +1,12 @@
 import { describe, expect, it } from "vitest";
-import { QuitClaimClient, SPECIMEN_TESTNET_CONTRACT, seatBuyNonce } from "../src/index";
+import { CleanDeedClient, SPECIMEN_TESTNET_CONTRACT, seatBuyNonce } from "../src/index";
 
 const live = process.env.QUITCLAIM_LIVE_RPC === "1";
 const contractId = process.env.QUITCLAIM_CONTRACT_ID ?? SPECIMEN_TESTNET_CONTRACT;
 
 describe.runIf(live)("live RPC (QUITCLAIM_LIVE_RPC=1)", () => {
-  it("reads club, seats, diligence via QuitClaimClient", async () => {
-    const client = new QuitClaimClient({ contractId, network: "testnet" });
+  it("reads club, seats, diligence via CleanDeedClient", async () => {
+    const client = new CleanDeedClient({ contractId, network: "testnet" });
     const club = await client.getClub();
     expect(club?.name || club?.club_id).toBeTruthy();
     const seats = await client.listSeats().catch(async () => {
@@ -31,7 +31,7 @@ describe("near helpers offline", () => {
     expect(seatBuyNonce({ token_id: "1", owner_id: "x" })).toBe(0);
   });
 
-  it("QuitClaimClient requires contractId", () => {
-    expect(() => new QuitClaimClient({ contractId: "" })).toThrow(/contractId/);
+  it("CleanDeedClient requires contractId", () => {
+    expect(() => new CleanDeedClient({ contractId: "" })).toThrow(/contractId/);
   });
 });

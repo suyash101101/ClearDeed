@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { useWallet } from "@/lib/wallet";
-import { getQuitClaimClient } from "@/lib/client";
+import { getCleanDeedClient } from "@/lib/client";
 import type { VenueSpec } from "@/sdk";
 
 function parseBps(raw: string): number[] {
@@ -16,7 +16,7 @@ function parseBps(raw: string): number[] {
 /** Live organizer: create a venue + mint seats on the bound contract. */
 export function VenueBootstrap() {
   const { accountId, createVenue, mintSeats } = useWallet();
-  const client = useMemo(() => getQuitClaimClient(), []);
+  const client = useMemo(() => getCleanDeedClient(), []);
   const [clubId, setClubId] = useState("");
   const [name, setName] = useState("");
   const [ticketPrice, setTicketPrice] = useState("10");

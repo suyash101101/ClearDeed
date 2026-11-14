@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { AttackTimeline } from "@/components/AttackTimeline";
 import { DoubleSellStrip } from "@/components/DoubleSellStrip";
 import { DynamicQrStrip } from "@/components/DynamicQrStrip";
@@ -7,18 +8,19 @@ import { JudgeStampPanel } from "@/components/JudgeStampPanel";
 import { KeyZeroStrip } from "@/components/KeyZeroStrip";
 import { OffChainRoyalty } from "@/components/OffChainRoyalty";
 import { ResaleClearance } from "@/components/ResaleClearance";
+import { ScopeHonesty } from "@/components/ScopeHonesty";
 import { SessionBar } from "@/components/SessionBar";
 import { BentoCard, BentoGrid } from "@/components/ui/bento-grid";
 import { PageHeader } from "@/components/ui/page-header";
 import { useApp } from "@/lib/store";
-import { LAB_ATTACKS, ONCHAIN, txUrl } from "@/lib/evidence";
+import { LAB_ATTACKS, LAB_FILMED_COUNT, ONCHAIN, txUrl } from "@/lib/evidence";
 import { LayoutGrid, ShieldCheck, Ticket } from "lucide-react";
 
 function proofForAttack(attack: string): string | null {
   if (attack.includes("old_owner")) return ONCHAIN.oldOwnerWithdrawRefuse;
   if (attack.includes("listed")) return ONCHAIN.listedWithdrawRefuse;
   if (attack.includes("held")) return ONCHAIN.heldSigRefuse;
-  if (attack.includes("wash")) return null;
+  if (attack.includes("wash") || attack.includes("stale")) return null;
   return ONCHAIN.buySeatMidPayout;
 }
 
@@ -34,11 +36,13 @@ export default function LabPage() {
     <section className="section" style={{ borderTop: "none", paddingTop: 0 }}>
       <PageHeader
         title="Transfer Lab"
-        lede="Named refusals with explorer receipts. One click arms each threat. Re-run without a wallet: pnpm heist."
+        lede={`${LAB_FILMED_COUNT} filmed explorer refuses · 2 Preview skeptic answers (stale nonce, wash buy). Re-run without a wallet: pnpm heist.`}
       />
+      <ScopeHonesty compact />
       <p className="lab-threat-rail meta" aria-label="Threat radar">
         <span className="badge warn">Threats</span>
-        seller recall · listed drain · held-sig · wash · stale nonce · sign-epoch · tip continuity. Each row links explorer proof.
+        seller recall · listed drain · held-sig · wash buy · stale nonce · sign-epoch · tip derive.
+        Filmed rows link Nearblocks; Preview rows say so.
       </p>
       <SessionBar />
 
@@ -73,7 +77,8 @@ export default function LabPage() {
           <span className="badge rpc">Testnet RPC</span> Receipt wall
         </h3>
         <p className="meta" style={{ marginBottom: "0.85rem" }}>
-          Open these first. Toasts after each attack also keep the hash clickable for ~10s.
+          {LAB_FILMED_COUNT} unique filmed hashes — not an inflated attack count. Preview rows
+          answer skeptic questions locally; arm them with the buttons below.
         </p>
         <ul className="lab-receipt-grid">
           {LAB_ATTACKS.map((a) => (
@@ -83,17 +88,30 @@ export default function LabPage() {
               </span>
               <div>
                 <strong>{a.title}</strong>
-                <p className="meta">{a.reason}</p>
-                <a className="mono" href={txUrl(a.tx)} target="_blank" rel="noreferrer">
-                  {a.tx.slice(0, 18)}…
-                </a>
+                <p className="meta">
+                  {a.proof === "filmed" ? (
+                    <span className="badge ok">Filmed</span>
+                  ) : (
+                    <span className="badge scenario">Preview</span>
+                  )}{" "}
+                  {a.reason}
+                </p>
+                {a.tx ? (
+                  <a className="mono" href={txUrl(a.tx)} target="_blank" rel="noreferrer">
+                    {a.tx.slice(0, 18)}…
+                  </a>
+                ) : (
+                  <Link className="pin-link" href="#lab-actions">
+                    Re-run in Lab · or pnpm heist →
+                  </Link>
+                )}
               </div>
             </li>
           ))}
         </ul>
       </div>
 
-      <div className="grid-2 lab-action-grid" style={{ marginBottom: "1.25rem" }}>
+      <div id="lab-actions" className="grid-2 lab-action-grid" style={{ marginBottom: "1.25rem" }}>
         <div className="panel">
           <h3>
             <span className="badge rpc">Live path</span> Transfer attacks
@@ -135,9 +153,25 @@ export default function LabPage() {
               type="button"
               className="danger"
               disabled={!seat}
+              onClick={() => runLab("stale", "3")}
+            >
+              Stale nonce buy
+            </button>
+            <button
+              type="button"
+              className="danger"
+              disabled={!seat}
+              onClick={() => runLab("washBuy", "3")}
+            >
+              Wash-gated buy
+            </button>
+            <button
+              type="button"
+              className="danger"
+              disabled={!seat}
               onClick={() => runLab("wash", "3")}
             >
-              Wash flag · fail a check
+              Wash flag · diligence FIX
             </button>
           </div>
         </div>
@@ -159,6 +193,11 @@ export default function LabPage() {
                   <a className="mono pin-link" href={txUrl(lastTx)} target="_blank" rel="noreferrer">
                     {lastTx.slice(0, 22)}… → explorer
                   </a>
+                </p>
+              )}
+              {!lastTx && (
+                <p className="meta" style={{ marginTop: "0.75rem" }}>
+                  Preview / unit refuse — no filmed explorer hash for this row yet.
                 </p>
               )}
             </>

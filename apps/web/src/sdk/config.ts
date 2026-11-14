@@ -1,9 +1,9 @@
-/** Network + venue configuration for QuitClaim deployments. */
+/** Network + venue configuration for CleanDeed deployments. */
 
 export type NearNetwork = "testnet" | "mainnet" | "local";
 
-export type QuitClaimConfig = {
-  /** Deployed QuitClaim contract account. Required for live calls. */
+export type CleanDeedConfig = {
+  /** Deployed CleanDeed contract account. Required for live calls. */
   contractId: string;
   network?: NearNetwork;
   rpcUrl?: string;
@@ -34,7 +34,7 @@ export const SPECIMEN_TESTNET_CONTRACT = "cleartitle562464.testnet";
 /** @deprecated Use SPECIMEN_TESTNET_CONTRACT */
 export const DEMO_TESTNET_CONTRACT = SPECIMEN_TESTNET_CONTRACT;
 
-export function resolveRpc(cfg: Pick<QuitClaimConfig, "network" | "rpcUrl">): string {
+export function resolveRpc(cfg: Pick<CleanDeedConfig, "network" | "rpcUrl">): string {
   if (cfg.rpcUrl) return cfg.rpcUrl;
   return NETWORK_RPC[cfg.network ?? "testnet"];
 }

@@ -2,20 +2,20 @@
  * Thin NEAR helpers shared by web, scripts, and integrators.
  * No wallet secrets. Views via JSON-RPC; call args are plain objects for wallets.
  *
- * Always pass `contractId` (or use `QuitClaimClient`). There is no silent
+ * Always pass `contractId` (or use `CleanDeedClient`). There is no silent
  * fallback to the demo deployment.
  */
 
 import {
   SPECIMEN_TESTNET_CONTRACT,
   resolveRpc,
-  type QuitClaimConfig,
+  type CleanDeedConfig,
   type NearNetwork,
 } from "./config";
 
-/** @deprecated Prefer QuitClaimClient / explicit contractId. */
+/** @deprecated Prefer CleanDeedClient / explicit contractId. */
 export const DEFAULT_TESTNET_CONTRACT = SPECIMEN_TESTNET_CONTRACT;
-/** @deprecated Prefer resolveRpc({ network }) or QuitClaimClient. */
+/** @deprecated Prefer resolveRpc({ network }) or CleanDeedClient. */
 export const DEFAULT_TESTNET_RPC = "https://test.rpc.fastnear.com";
 
 export type NearViewConfig = {
@@ -76,7 +76,7 @@ function requireContractId(cfg?: Partial<NearViewConfig>): string {
   const id = cfg?.contractId?.trim();
   if (!id) {
     throw new Error(
-      "contractId required — pass your deployed QuitClaim account (or new QuitClaimClient({ contractId }))",
+      "contractId required — pass your deployed CleanDeed account (or new CleanDeedClient({ contractId }))",
     );
   }
   return id;
@@ -342,7 +342,7 @@ export function viewLease(
   ).catch(() => null);
 }
 
-export function toNearViewConfig(cfg: QuitClaimConfig): NearViewConfig {
+export function toNearViewConfig(cfg: CleanDeedConfig): NearViewConfig {
   return {
     contractId: cfg.contractId,
     network: cfg.network,

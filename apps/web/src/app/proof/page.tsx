@@ -123,9 +123,13 @@ export default function ProofPage() {
                   <span>
                     {a.title}
                     <br />
-                    <a className="mono meta" href={txUrl(a.tx)} target="_blank" rel="noreferrer">
-                      {a.tx.slice(0, 18)}…
-                    </a>
+                    {a.tx ? (
+                      <a className="mono meta" href={txUrl(a.tx)} target="_blank" rel="noreferrer">
+                        {a.tx.slice(0, 18)}…
+                      </a>
+                    ) : (
+                      <span className="meta">Preview · Lab / heist</span>
+                    )}
                   </span>
                 </li>
               ))}
